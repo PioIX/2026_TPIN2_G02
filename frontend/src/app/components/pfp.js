@@ -5,10 +5,10 @@ import { useState } from "react";
 
 
 
-export default function pfp() {
+export default function Pfp() {
     return(
     <div className="pfp">
-        <image
+        <Image
         // src={pfp}
         src="/globe.svg"
         height={67}

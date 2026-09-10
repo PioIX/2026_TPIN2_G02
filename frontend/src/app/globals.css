@@ -17,3 +17,9 @@ header{
   flex-direction: column;
   padding-left: 15px;
 }
+.fondo{
+  display: flex;
+}
+.chat{
+  display: flex;
+}

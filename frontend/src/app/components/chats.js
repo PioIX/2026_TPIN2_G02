@@ -5,7 +5,7 @@ import { useState } from "react";
 
 
 
-export default function Chat(chatImg,chatName,chatLast) {
+export default function Chat(chatImg,chatName) {
     return(
         <div className="chat">
             <Image
