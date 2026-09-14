@@ -1,5 +1,6 @@
 jsx
 "use client"
+import { useRouter } from "next/navigation"
 import { useState } from "react";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
@@ -8,6 +9,7 @@ export default function LoginPage() {
   const [mail, setMail] = useState("");
   const [contra, setContra] = useState("");
   const [error, setError] = useState("");
+  const router = useRouter()
 
   const iniciarSesion = () => {
     fetch("http://localhost:4000/login", {
@@ -20,6 +22,8 @@ export default function LoginPage() {
         return res.json();
       })
       .then((usuario) => {
+        localStorage.setItem("usuario", JSON.stringify(usuario));
+        router.push("/");
         console.log("Usuario logueado:", usuario);
         // Falta guardar el usuario y redirigir — se completa en la próxima clase
       })
