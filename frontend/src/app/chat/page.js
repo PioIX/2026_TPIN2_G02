@@ -6,6 +6,7 @@ const ID_USER_ACTUAL = 1; // dato de prueba, se reemplaza cuando se integre el l
 
 export default function ChatPage() {
   const [mensajes, setMensajes] = useState([]);
+  const [texto, setTexto] = useState([])
 
   useEffect(() => {
     fetch("http://localhost:4000/mensajes/1")

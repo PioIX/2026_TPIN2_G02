@@ -6,3 +6,15 @@ app.get("/mensajes/:idChat", async (req, res) => {
   );
   res.json(rows);
 });
+
+app.post("/mensajes", async (req, res) => {
+  const { id_chat, id_user, contenido } = req.body;
+  const fecha_hora = new Date();
+
+  const [resultado] = await pool.query(
+    "INSERT INTO Mensajes (id_chat, id_user, contenido, fecha_hora) VALUES (?, ?, ?, ?)",
+    [id_chat, id_user, contenido, fecha_hora]
+  );
+
+  res.json({ id_mensaje: resultado.insertId, id_chat, id_user, contenido, fecha_hora });
+});
