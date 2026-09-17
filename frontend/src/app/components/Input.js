@@ -1,8 +1,7 @@
-jsx
 "use client"
 
-export default function Input({ type = "text", value, onChange, placeholder }) {
+export default function Input({ type = "text", onChange, placeholder }) {
   return (
-    <input type={type} value={value} onChange={onChange} placeholder={placeholder} />
+    <input type={type} onChange={onChange} placeholder={placeholder} />
   );
 }

@@ -1,9 +1,8 @@
-jsx
 "use client"
 import { useRouter } from "next/navigation"
 import { useState } from "react";
-import Input from "@/components/Input";
-import Button from "@/components/Button";
+import Input from "../components/Input";
+import Button from "../components/Button";
 
 export default function LoginPage() {
   const [mail, setMail] = useState("");
@@ -11,30 +10,39 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const router = useRouter()
 
-  const iniciarSesion = () => {
-    fetch("http://localhost:4000/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mail, contra }),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Credenciales inválidas");
-        return res.json();
-      })
-      .then((usuario) => {
-        localStorage.setItem("usuario", JSON.stringify(usuario));
-        router.push("/");
-        console.log("Usuario logueado:", usuario);
-        // Falta guardar el usuario y redirigir — se completa en la próxima clase
-      })
-      .catch(() => setError("Mail o contraseña incorrectos"));
-  };
+  //--------------- HACER GET ------------------
+  // const iniciarSesion = () => {
+  //   fetch("http://localhost:4000/login", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ mail, contra }),
+  //   })
+  //     .then((res) => {
+  //       if (!res.ok) throw new Error("Credenciales inválidas");
+  //       return res.json();
+  //     })
+  //     .then((usuario) => {
+  //       localStorage.setItem("usuario", JSON.stringify(usuario));
+  //       router.push("/");
+  //       console.log("Usuario logueado:", usuario);
+  //       // Falta guardar el usuario y redirigir — se completa en la próxima clase
+  //     })
+  //     .catch(() => setError("Mail o contraseña incorrectos"));
+  // };
+    
+  const evail = (event) => {setMail(event.target.value)
+    console.log(mail)
+  }
+
+  const evcons = (event) => {setContra(event.target.value)
+    console.log(contra)
+  }
 
   return (
     <div>
       <h1>Iniciar sesión</h1>
-      <Input type="email" value={mail} onChange={(e) => setMail(e.target.value)} placeholder="Mail" />
-      <Input type="password" value={contra} onChange={(e) => setContra(e.target.value)} placeholder="Contraseña" />
+      <Input type="email" onChange={evail} placeholder="Mail" />
+      <Input type="password" onChange={evcons} placeholder="Contraseña" />
       <Button text="Ingresar" onClick={iniciarSesion} disabled={!mail || !contra} />
       {error && <p>{error}</p>}
     </div>

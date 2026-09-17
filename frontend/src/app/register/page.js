@@ -1,9 +1,8 @@
-jsx
 "use client"
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Input from "@/components/Input";
-import Button from "@/components/Button";
+import Input from "../components/Input";
+import Button from "../components/Button";
 
 export default function RegisterPage() {
   const router = useRouter();

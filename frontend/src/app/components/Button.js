@@ -1,4 +1,3 @@
-jsx
 "use client"
 
 export default function Button({ text, onClick, disabled }) {
