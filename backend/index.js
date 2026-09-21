@@ -1,20 +1,16 @@
-app.get("/mensajes/:idChat", async (req, res) => {
-  const { idChat } = req.params;
-  const [rows] = await pool.query(
-    "SELECT id_mensaje, id_chat, id_user, contenido, fecha_hora FROM Mensajes WHERE id_chat = ? ORDER BY fecha_hora ASC",
-    [idChat]
-  );
-  res.json(rows);
-});
+const express = require("express");
+const cors = require("cors");
 
-app.post("/mensajes", async (req, res) => {
-  const { id_chat, id_user, contenido } = req.body;
-  const fecha_hora = new Date();
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-  const [resultado] = await pool.query(
-    "INSERT INTO Mensajes (id_chat, id_user, contenido, fecha_hora) VALUES (?, ?, ?, ?)",
-    [id_chat, id_user, contenido, fecha_hora]
-  );
+const mensajesRoutes = require("./routes/mensajes");
+app.use(mensajesRoutes);
 
-  res.json({ id_mensaje: resultado.insertId, id_chat, id_user, contenido, fecha_hora });
+const authRoutes = require("./routes/auth");
+app.use(authRoutes);
+
+app.listen(4000, () => {
+  console.log("Servidor corriendo en http://localhost:4000/");
 });
