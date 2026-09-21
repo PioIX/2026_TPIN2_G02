@@ -1,45 +1,17 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const pool = require("./db");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 4000;
+const mensajesRoutes = require("./routes/mensajes");
+app.use(mensajesRoutes);
 
-app.post("/login", async (req, res) => {
-  // TODO MAL --------- HAY QUE HACERLO GET PORQUE ES POST --------------- FUCKING CLANKER
-  // const { mail, contra } = req.body;
-  // const [rows] = await pool.query(
-  //   "SELECT id_user, username, mail, foto FROM Usuarios WHERE mail = ? AND contra = ?",
-  //   [mail, contra]
-  // );
+const authRoutes = require("./routes/auth");
+app.use(authRoutes);
 
-  if (rows.length === 0) {
-    return res.status(401).json({ error: "Credenciales inválidas" });
-  }
-  res.json(rows[0]);
+app.listen(4000, () => {
+  console.log("Servidor corriendo en http://localhost:4000/");
 });
-
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}/`);
-});
-
-app.post("/register", async (req, res) => {
-  const { username, mail, contra } = req.body;
-
-  const [existentes] = await pool.query("SELECT id_user FROM Usuarios WHERE mail = ?", [mail]);
-  if (existentes.length > 0) {
-    return res.status(400).json({ error: "Ese mail ya está registrado" });
-  }
-  // ------------ HUMANIZAR -----------------
-  // const [resultado] = await pool.query(
-  //   "INSERT INTO Usuarios (username, mail, contra, foto) VALUES (?, ?, ?, NULL)",
-  //   [username, mail, contra]
-  // );
-
-  res.json({ id_user: resultado.insertId, username, mail });
-});
-
