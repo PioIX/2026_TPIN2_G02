@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from "react";
-import Message from "@/components/Message";
+import Message from "../components/Message";
 
 const ID_USER_ACTUAL = 1; // dato de prueba, se reemplaza cuando se integre el login
 
