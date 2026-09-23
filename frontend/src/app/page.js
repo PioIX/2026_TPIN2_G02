@@ -1,19 +1,21 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-import Chat from "./components/chats";
-import Pfp from "./components/pfp";
-import PresentChat from "./components/presentChat";
+"use client"
+
+import { useState, useEffect } from "react";
+import Chat from "@/components/Chat";
+import PresentChat from "@/components/PresentChat";
+
 export default function Home() {
+  const [chats, setChats] = useState([]);
+  const idUserActual = JSON.parse(localStorage.getItem("usuario"))?.id_user;
   return (
     <div className="fondo">
       <div className="chatList">
-        <Chat/> 
-        <Chat/>
-        <Chat/>
-        <Chat/>
+       {chats.map((c) => (
+          <Chat key={c.id_chat} nombre={c.nombre} descripcion={c.descripcion} foto={c.foto} />
+        ))}
       </div>
       <div className="chatArriba">
-        <PresentChat></PresentChat>
+        <PresentChat />
         <div></div>
       </div>
     </div>
