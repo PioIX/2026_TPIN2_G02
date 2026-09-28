@@ -1,8 +1,9 @@
 "use client"
 import { useState, useEffect } from "react";
 import Message from "../components/Message";
+import useSocket from "@/hooks/useSocket";
 
-const ID_USER_ACTUAL = 1; // dato de prueba, se reemplaza cuando se integre el login
+const idUserActual = 1; // dato de prueba, se reemplaza cuando se integre el login
 
 export default function ChatPage() {
   const [mensajes, setMensajes] = useState([]);
@@ -13,6 +14,23 @@ export default function ChatPage() {
       .then((res) => res.json())
       .then((data) => setMensajes(data));
   }, []);
+
+const { socket } = useSocket();
+const idChatActual = 1; // raRO
+
+useEffect(() => {
+  if (!socket) return;
+  socket.emit("joinRoom", { room: idChatActual });
+
+  socket.on("newMessage", (data) => {
+    setMensajes((prev) => [...prev, data]);
+  });
+}, [socket]);
+
+const enviarMensaje = () => {// no se llama????
+  socket.emit("sendMessage", { id_chat: idChatActual, id_user: ID_USER_ACTUAL, contenido: texto });
+  setTexto("");
+};
 
   return (
     <div>
