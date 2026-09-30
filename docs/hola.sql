@@ -16,7 +16,7 @@ CREATE TABLE Chats (
     PRIMARY KEY(id_chat)
 );
 
-CREATE TABLE chat_participantes (
+CREATE TABLE Chat_participantes (
 	id INT AUTO_INCREMENT UNIQUE NOT NULL,
     id_chat INT NOT NULL,
     id_user INT NOT NULL,

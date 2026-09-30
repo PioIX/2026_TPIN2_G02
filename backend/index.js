@@ -12,6 +12,9 @@ app.use(mensajesRoutes);
 const authRoutes = require("./routes/auth");
 app.use(authRoutes);
 
+const chatsRoutes = require("./routes/chats");
+app.use(chatsRoutes);
+
 app.listen(4000, () => {
   console.log("Servidor corriendo en http://localhost:4000/");
 });
