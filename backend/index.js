@@ -15,3 +15,5 @@ app.use(authRoutes);
 app.listen(4000, () => {
   console.log("Servidor corriendo en http://localhost:4000/");
 });
+
+app.use("/uploads", express.static("uploads"));
