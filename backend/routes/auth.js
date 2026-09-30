@@ -1,22 +1,13 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
 const { realizarQuery } = require("../modulos/mysql");
 
-router.post("/login", async (req, res) => {
-  const { mail, contra } = req.body;
-  const rows = await realizarQuery(
-    "SELECT id_user, username, mail, foto FROM Usuarios WHERE mail = ? AND contra = ?",
-    [mail, contra]
-  );
+const upload = multer({ dest: "uploads/" });
 
-  if (rows.length === 0) {
-    return res.status(401).json({ error: "Credenciales inválidas" });
-  }
-  res.json(rows[0]);
-});
-
-router.post("/register", async (req, res) => {
+router.post("/register", upload.single("foto"), async (req, res) => {
   const { username, mail, contra } = req.body;
+  const foto = req.file ? req.file.filename : null;
 
   const existentes = await realizarQuery("SELECT id_user FROM Usuarios WHERE mail = ?", [mail]);
   if (existentes.length > 0) {
@@ -24,11 +15,11 @@ router.post("/register", async (req, res) => {
   }
 
   const resultado = await realizarQuery(
-    "INSERT INTO Usuarios (username, mail, contra, foto) VALUES (?, ?, ?, NULL)",
-    [username, mail, contra]
+    "INSERT INTO Usuarios (username, mail, contra, foto) VALUES (?, ?, ?, ?)",
+    [username, mail, contra, foto]
   );
 
-  res.json({ id_user: resultado.insertId, username, mail });
+  res.json({ id_user: resultado.insertId, username, mail, foto });
 });
 
 module.exports = router;
