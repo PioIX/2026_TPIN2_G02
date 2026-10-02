@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Message from "../components/Message";
+import PresentChat from "../components/presentChat";
 import useSocket from "@/hooks/useSocket";
 
 const idUserActual = 1; // dato de prueba, se reemplaza cuando se integre el login
@@ -9,6 +10,8 @@ const idUserActual = 1; // dato de prueba, se reemplaza cuando se integre el log
 export default function ChatPage() {
   const searchParams = useSearchParams();
   const idChat = searchParams.get("id");
+  const nombreChat = searchParams.get("nombre");
+  const fotoChat = searchParams.get("foto");
 
   const [idUserActual, setIdUserActual] = useState(null);
   const [mensajes, setMensajes] = useState([]);
@@ -51,6 +54,7 @@ export default function ChatPage() {
   return (
     <div>
       <h1>Chat</h1>
+      <PresentChat chatImg={fotoChat} chatName={nombreChat} />
       {mensajes.length === 0 ? (
         <p>No hay mensajes todavía.</p>
       ) : (

@@ -13,15 +13,10 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
 
   const registrarse = () => {
-    const datos = new FormData();
-    datos.append("username", username);
-    datos.append("mail", mail);
-    datos.append("contra", contra);
-    if (foto) datos.append("foto", foto);
-
     fetch("http://localhost:4000/register", {
       method: "POST",
-      body: datos,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, mail, contra, foto: foto || null }),
     })
       .then((res) => {
         if (!res.ok) throw new Error("No se pudo registrar");
@@ -37,7 +32,7 @@ export default function RegisterPage() {
       <Input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Usuario" />
       <Input type="email" value={mail} onChange={(e) => setMail(e.target.value)} placeholder="Mail" />
       <Input type="password" value={contra} onChange={(e) => setContra(e.target.value)} placeholder="Contraseña" />
-      <input type="file" accept="image/*" onChange={(e) => setFoto(e.target.files[0])} />
+      <input value={foto} onChange={(e) => setFoto(e.target.value)} placeholder="URL de tu foto (opcional)" />
       <Button text="Registrarme" onClick={registrarse} disabled={!username || !mail || !contra} />
       {error && <p>{error}</p>}
     </div>

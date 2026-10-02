@@ -24,11 +24,11 @@ router.post("/register", async (req, res) => {
   }
 
   const resultado = await realizarQuery(
-    "INSERT INTO Usuarios (username, mail, contra, foto) VALUES (?, ?, ?, NULL)",
-    [username, mail, contra]
+    "INSERT INTO Usuarios (username, mail, contra, foto) VALUES (?, ?, ?, ?)",
+    [username, mail, contra, foto || null]
   );
 
-  res.json({ id_user: resultado.insertId, username, mail });
+  res.json({ id_user: resultado.insertId, username, mail, foto: foto || null });
 });
 
 module.exports = router;
