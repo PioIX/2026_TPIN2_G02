@@ -8,7 +8,7 @@ export default function RegisterPage() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [mail, setMail] = useState("");
-  const [foto, setFoto] = useState(null);
+  const [foto, setFoto] = useState("");
   const [contra, setContra] = useState("");
   const [error, setError] = useState("");
 
@@ -22,7 +22,7 @@ export default function RegisterPage() {
         if (!res.ok) throw new Error("No se pudo registrar");
         return res.json();
       })
-      .then(() => router.push("/login"))
+      .then(() => router.push("/"))
       .catch(() => setError("Ese mail ya está registrado"));
   };
 
@@ -32,7 +32,7 @@ export default function RegisterPage() {
       <Input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Usuario" />
       <Input type="email" value={mail} onChange={(e) => setMail(e.target.value)} placeholder="Mail" />
       <Input type="password" value={contra} onChange={(e) => setContra(e.target.value)} placeholder="Contraseña" />
-      <input value={foto} onChange={(e) => setFoto(e.target.value)} placeholder="URL de tu foto (opcional)" />
+      <Input value={foto} onChange={(e) => setFoto(e.target.value)} placeholder="URL de tu foto (opcional)" />
       <Button text="Registrarme" onClick={registrarse} disabled={!username || !mail || !contra} />
       {error && <p>{error}</p>}
     </div>

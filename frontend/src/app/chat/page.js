@@ -1,13 +1,12 @@
 "use client"
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Message from "../components/Message";
-import PresentChat from "../components/presentChat";
-import useSocket from "@/hooks/useSocket";
-
-const idUserActual = 1; // dato de prueba, se reemplaza cuando se integre el login
+import PresentChat from "../components/PresentChat";
+import { useSocket } from "@/hooks/useSocket";
 
 export default function ChatPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const idChat = searchParams.get("id");
   const nombreChat = searchParams.get("nombre");
@@ -25,15 +24,15 @@ export default function ChatPage() {
 
   useEffect(() => {
     if(!idChat) return;
-    fetch("http://localhost:4000/mensajes/1")
+    fetch(`http://localhost:4000/mensajes/${idChat}`)
       .then((res) => res.json())
       .then((data) => setMensajes(data));
   }, [idChat]);
 
 
   useEffect(() => {
-    if (!socket) return;
-    socket.emit("joinRoom", { room: idChatActual });
+    if (!socket || !idChat) return;
+    socket.emit("joinRoom", { room: idChat });
 
     const manejarNuevoMensaje = (data) =>{
       setMensajes((prev) => [...prev, data]);
@@ -43,17 +42,18 @@ export default function ChatPage() {
     return(()=>{
       socket.off("newMessage", manejarNuevoMensaje)
     })
-  }, [socket]);
+  }, [socket, idChat]);
 
   const enviarMensaje = () => {
     if (!socket || !texto) return;
-    socket.emit("sendMessage", { id_chat: idChatActual, id_user: ID_USER_ACTUAL, contenido: texto });
+    socket.emit("sendMessage", { id_chat: idChat, id_user: idUserActual, contenido: texto });
     setTexto("");
   };
 
   return (
     <div>
       <h1>Chat</h1>
+      <button onClick={() => router.push("/contactos")}>← Volver</button>
       <PresentChat chatImg={fotoChat} chatName={nombreChat} />
       {mensajes.length === 0 ? (
         <p>No hay mensajes todavía.</p>

@@ -7,7 +7,7 @@ router.get("/chats/:idUser", async (req, res) => {
   const rows = await realizarQuery(
     `SELECT c.id_chat, c.nombre, c.descripcion, c.foto, c.es_grupo
      FROM Chats c
-     INNER JOIN chat_participantes cp ON cp.id_chat = c.id_chat
+     INNER JOIN Chat_participantes cp ON cp.id_chat = c.id_chat
      WHERE cp.id_user = ?`,
     [idUser]
   );
@@ -38,7 +38,7 @@ router.post("/chats", async (req, res) => {
     const participantes = [idUserCreador, ...idsEncontrados];
     for (const idUser of participantes) {
       await realizarQuery(
-        "INSERT INTO chat_participantes (id_chat, id_user) VALUES (?, ?)",
+        "INSERT INTO Chat_participantes (id_chat, id_user) VALUES (?, ?)",
         [idChat, idUser]
       );
     }
@@ -53,14 +53,28 @@ router.post("/chats", async (req, res) => {
   }
   const otroUsuario = encontrados[0];
 
+  // Esto es para chequear si ya existe un chat individual entre estos dos usuarios
+  const chatExistente = await realizarQuery(
+    `SELECT c.id_chat, c.nombre, c.descripcion, c.foto, c.es_grupo
+     FROM Chats c
+     INNER JOIN Chat_participantes cp1 ON cp1.id_chat = c.id_chat AND cp1.id_user = ?
+     INNER JOIN Chat_participantes cp2 ON cp2.id_chat = c.id_chat AND cp2.id_user = ?
+     WHERE c.es_grupo = FALSE`,
+    [idUserCreador, otroUsuario.id_user]
+  );
+
+  if (chatExistente.length > 0) {
+    return res.json(chatExistente[0]); // devolvemos el chat que ya existía para que no creé otro
+  }
+
   const resultado = await realizarQuery(
     "INSERT INTO Chats (nombre, descripcion, foto, es_grupo) VALUES (?, ?, ?, ?)",
     [otroUsuario.username, null, otroUsuario.foto, false]
   );
   const idChat = resultado.insertId;
 
-  await realizarQuery("INSERT INTO chat_participantes (id_chat, id_user) VALUES (?, ?)", [idChat, idUserCreador]);
-  await realizarQuery("INSERT INTO chat_participantes (id_chat, id_user) VALUES (?, ?)", [idChat, otroUsuario.id_user]);
+  await realizarQuery("INSERT INTO Chat_participantes (id_chat, id_user) VALUES (?, ?)", [idChat, idUserCreador]);
+  await realizarQuery("INSERT INTO Chat_participantes (id_chat, id_user) VALUES (?, ?)", [idChat, otroUsuario.id_user]);
 
   res.json({ id_chat: idChat, nombre: otroUsuario.username, descripcion: null, foto: otroUsuario.foto, es_grupo: false });
 });

@@ -16,7 +16,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { username, mail, contra } = req.body;
+  const { username, mail, contra, foto } = req.body;
 
   const existentes = await realizarQuery("SELECT id_user FROM Usuarios WHERE mail = ?", [mail]);
   if (existentes.length > 0) {

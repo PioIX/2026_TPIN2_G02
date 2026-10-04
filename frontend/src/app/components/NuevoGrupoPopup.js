@@ -6,6 +6,7 @@ import Button from "./Button";
 export default function NuevoGrupoPopup({ idUserActual, onCreado }) {
   const [nombre, setNombre] = useState("");
   const [mailsTexto, setMailsTexto] = useState("");
+  const [foto, setFoto] = useState("");
   const [error, setError] = useState("");
 
   const crear = (cerrar) => {
@@ -34,6 +35,7 @@ export default function NuevoGrupoPopup({ idUserActual, onCreado }) {
         <div>
           <input value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Nombre del grupo" />
           <input value={mailsTexto} onChange={(e) => setMailsTexto(e.target.value)} placeholder="Mails separados por coma" />
+          <input value={foto} onChange={(e) => setFoto(e.target.value)} placeholder="URL de la foto del grupo (opcional)" />
           <Button text="Crear grupo" onClick={() => crear(close)} disabled={!nombre || !mailsTexto} />
           {error && <p>{error}</p>}
         </div>
