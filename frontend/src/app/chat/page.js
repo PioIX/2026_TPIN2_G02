@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Message from "../components/Message";
-import PresentChat from "../components/PresentChat";
+import PresentChat from "../components/presentChat";
 import { useSocket } from "@/hooks/useSocket";
 
 export default function ChatPage() {
