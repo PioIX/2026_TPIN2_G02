@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import ChatList from "../components/ChatList";
 import NuevoChatPopup from "../components/NuevoChatPopup";
 import NuevoGrupoPopup from "../components/NuevoGrupoPopup";
+import styles from "../styles.module.css";
+
 
 export default function ContactosPage() {
   const router = useRouter();
@@ -41,9 +43,9 @@ export default function ContactosPage() {
     };
 
   return (
-    <div className="fondo">
+    <div className={styles.fondo}>
       <ChatList chats={chats} onSeleccionar={abrirChat} />
-      <div className="chatArriba">
+      <div className={styles.chatArriba}>
         <NuevoChatPopup idUserActual={idUserActual} onCreado={agregarChat} />
         <NuevoGrupoPopup idUserActual={idUserActual} onCreado={agregarChat} />
       </div>

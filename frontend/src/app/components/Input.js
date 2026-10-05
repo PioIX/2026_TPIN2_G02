@@ -1,7 +1,7 @@
 "use client"
 
-export default function Input({ type = "text", value, onChange, placeholder }) {
+export default function Input({ type = "text", value, onChange, placeholder, className }) {
   return (
-    <input type={type} value={value} onChange={onChange} placeholder={placeholder} />
+    <input type={type} value={value} onChange={onChange} placeholder={placeholder} className={className}/>
   );
 }

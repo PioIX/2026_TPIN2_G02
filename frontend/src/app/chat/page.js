@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Message from "../components/Message";
 import PresentChat from "../components/presentChat";
 import { useSocket } from "@/hooks/useSocket";
+import styles from "../styles.module.css";
 
 export default function ChatPage() {
   const router = useRouter();
@@ -52,17 +53,23 @@ export default function ChatPage() {
 
   return (
     <div>
-      <button onClick={() => router.push("/contactos")}>← Volver</button>
-      <PresentChat chatImg={fotoChat} chatName={nombreChat} />
-      {mensajes.length === 0 ? (
-        <p>No hay mensajes todavía.</p>
-      ) : (
-        mensajes.map((m) => (
-          <Message key={m.id_mensaje} mensaje={m} esPropio={m.id_user === idUserActual} />
-        ))
-      )}
-      <input value={texto} onChange={(e) => setTexto(e.target.value)} placeholder="Mensaje" />
-      <button onClick={enviarMensaje}>Enviar</button>
+      <div className={styles.chatHeader}>
+        <button onClick={() => router.push("/contactos")}>← Volver</button>
+        <PresentChat chatImg={fotoChat} chatName={nombreChat} />
+      </div>
+      <div className={styles.mensajes}>
+        {mensajes.length === 0 ? (
+          <p>No hay mensajes todavía.</p>
+        ) : (
+          mensajes.map((m) => (
+            <Message key={m.id_mensaje} mensaje={m} esPropio={m.id_user === idUserActual} />
+          ))
+        )}
+      </div>
+      <div className={styles.inputArea}>
+        <input value={texto} onChange={(e) => setTexto(e.target.value)} placeholder="Mensaje" />
+        <button onClick={enviarMensaje}>Enviar</button>
+      </div>
     </div>
   );
 }

@@ -1,9 +1,10 @@
 "use client"
 import ChatItem from "./ChatItem";
+import styles from "../styles.module.css";
 
 export default function ChatList({ chats, onSeleccionar }) {
   return (
-    <div className="chatList">
+    <div className={styles.chatList}>
       {chats.length === 0 ? (
         <p>No tenés chats todavía.</p>
       ) : (

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import styles from "../styles.module.css";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -27,14 +28,16 @@ export default function RegisterPage() {
   };
 
   return (
-    <div>
-      <h1>Crear cuenta</h1>
-      <Input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Usuario" />
-      <Input type="email" value={mail} onChange={(e) => setMail(e.target.value)} placeholder="Mail" />
-      <Input type="password" value={contra} onChange={(e) => setContra(e.target.value)} placeholder="Contraseña" />
-      <Input value={foto} onChange={(e) => setFoto(e.target.value)} placeholder="URL de tu foto (opcional)" />
-      <Button text="Registrarme" onClick={registrarse} disabled={!username || !mail || !contra} />
-      {error && <p>{error}</p>}
+    <div className={styles.contenedor}>
+      <div className={styles.tarjeta}>
+        <h1>Crear cuenta</h1>
+        <Input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Usuario" className={styles.input}/>
+        <Input type="email" value={mail} onChange={(e) => setMail(e.target.value)} placeholder="Mail" className={styles.input}/>
+        <Input type="password" value={contra} onChange={(e) => setContra(e.target.value)} placeholder="Contraseña" className={styles.input}/>
+        <Input value={foto} onChange={(e) => setFoto(e.target.value)} placeholder="URL de tu foto (opcional)" className={styles.input}/>
+        <Button text="Registrarme" onClick={registrarse} disabled={!username || !mail || !contra} className={styles.boton}/>
+        {error && <p className={styles.error}>{error}</p>}
+      </div>
     </div>
   );
 }

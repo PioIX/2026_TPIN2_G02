@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation"
 import { useState } from "react";
 import Input from "./components/Input";
 import Button from "./components/Button";
+import styles from "./styles.module.css";
 
 export default function HomePage() {
   const [mail, setMail] = useState("");
@@ -31,15 +32,17 @@ export default function HomePage() {
   const evcons = (event) => setContra(event.target.value)
 
   return (
-    <div>
-      <h1>Iniciar sesión</h1>
-      <Input type="email" value={mail} onChange={evail} placeholder="Mail" />
-      <Input type="password" value={contra} onChange={evcons} placeholder="Contraseña" />
-      <Button text="Ingresar" onClick={iniciarSesion} disabled={!mail || !contra} />
-      {error && <p>{error}</p>}
+    <div className={styles.contenedor}>
+      <div className={styles.tarjeta}>
+        <h1>Iniciar sesión</h1>
+        <Input type="email" value={mail} onChange={evail} placeholder="Mail" className={styles.input}/>
+        <Input type="password" value={contra} onChange={evcons} placeholder="Contraseña" className={styles.input}/>
+        <Button text="Ingresar" onClick={iniciarSesion} disabled={!mail || !contra} className={styles.boton}/>
+        {error && <p className={styles.error}>{error}</p>}
 
-      <p>¿Todavía no tenés una cuenta?</p>
-      <Button text="Registrarme" onClick={() => router.push("/register")} />
+        <p>¿Todavía no tenés una cuenta?</p>
+        <Button text="Registrarme" onClick={() => router.push("/register")} />
+        </div>
     </div>
   );
 }

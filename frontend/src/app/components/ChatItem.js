@@ -1,11 +1,12 @@
 "use client"
 import { useState } from "react";
 import Image from "next/image";
+import styles from "../styles.module.css";
 
 export default function Chat({ chat, onClick }) {
   const [error, setError] = useState(false);
   return (
-    <div className="chat" onClick={()=>onClick(chat.id_chat)}>
+    <div className={styles.chatItem} onClick={()=>onClick(chat.id_chat)}>
       <Image
         src={error || !chat.foto ? "/globe.svg" : chat.foto}
         width={55}
@@ -14,7 +15,7 @@ export default function Chat({ chat, onClick }) {
         unoptimized
         onError={() => setError(true)}
       />
-      <div className="chatPre">
+      <div className={styles.chatPre}>
         <h3>{chat.nombre}</h3>
         <p>{chat.descripcion}</p>
       </div>
