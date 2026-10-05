@@ -53,7 +53,7 @@ INSERT INTO Chat_participantes (id_chat, id_user) VALUES
 (2, 2),
 (2, 3);
 
-INSERT INTO mensajes (id_chat, id_user, contenido, fecha_hora) VALUES
+INSERT INTO Mensajes (id_chat, id_user, contenido, fecha_hora) VALUES
 (1, 1, 'GENIO!', '2026-09-01 10:00:00'),
 (1, 2, 'Claro amigo, sos un crack', '2026-09-01 10:02:00'),
 (2, 1, 'Alguien me socorre?', '2026-09-02 09:00:00'),
