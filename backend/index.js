@@ -49,11 +49,13 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sendMessage", async (data) => {
+    const fechaHora = new Date();
     const resultado = await realizarQuery(
-      "INSERT INTO Mensajes (id_chat, id_user, contenido, fecha_hora) VALUES (?, ?, ?, NOW())",
-      [data.id_chat, data.id_user, data.contenido]
+      "INSERT INTO Mensajes (id_chat, id_user, contenido, fecha_hora) VALUES (?, ?, ?, ?)",
+      [data.id_chat, data.id_user, data.contenido, fechaHora]
     );
-    io.to(req.session.room).emit("newMessage", { ...data, id_mensaje: resultado.insertId });
+    const usuario = await realizarQuery("SELECT username FROM Usuarios WHERE id_user = ?", [data.id_user]);
+    io.to(req.session.room).emit("newMessage", { ...data, id_mensaje: resultado.insertId, username: usuario[0]?.username, fecha_hora: fechaHora,});
   });
 
   socket.on("disconnect", () => console.log("Disconnect"));

@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ChatList from "../components/ChatList";
-import NuevoChatPopup from "./components/NuevoChatPopup";
-import NuevoGrupoPopup from "./components/NuevoGrupoPopup";
+import NuevoChatPopup from "../components/NuevoChatPopup";
+import NuevoGrupoPopup from "../components/NuevoGrupoPopup";
 
 export default function ContactosPage() {
   const router = useRouter();
@@ -27,7 +27,9 @@ export default function ContactosPage() {
   }, [idUserActual]);
 
   const abrirChat = (idChat) => {
-    router.push(`/chat?id=${idChat}`);
+    const chatElegido = chats.find((c) => c.id_chat === idChat);
+    // esto es para que la URL no se rompa
+    router.push(`/chat?id=${idChat}&nombre=${encodeURIComponent(chatElegido.nombre)}&foto=${encodeURIComponent(chatElegido.foto || "")}`);
   };
 
   const agregarChat = (nuevo) => {

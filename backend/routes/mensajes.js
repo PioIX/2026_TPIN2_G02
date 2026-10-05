@@ -5,7 +5,11 @@ const { realizarQuery } = require("../modulos/mysql");
 router.get("/mensajes/:idChat", async (req, res) => {
   const { idChat } = req.params;
   const rows = await realizarQuery(
-    "SELECT id_mensaje, id_chat, id_user, contenido, fecha_hora FROM Mensajes WHERE id_chat = ? ORDER BY fecha_hora ASC",
+    `SELECT m.id_mensaje, m.id_chat, m.id_user, m.contenido, m.fecha_hora, u.username 
+    FROM Mensajes m
+    INNER JOIN Usuarios u ON u.id_user = m.id_user
+    WHERE m.id_chat = ? 
+    ORDER BY m.fecha_hora ASC`,
     [idChat]
   );
   res.json(rows);

@@ -15,7 +15,7 @@ export default function NuevoGrupoPopup({ idUserActual, onCreado }) {
     fetch("http://localhost:4000/chats", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombre, mails, idUserCreador: idUserActual, esGrupo: true }),
+      body: JSON.stringify({ nombre, mails, foto: foto || null, idUserCreador: idUserActual, esGrupo: true }),
     })
       .then((res) => {
         if (!res.ok) throw new Error("Algún mail no existe");

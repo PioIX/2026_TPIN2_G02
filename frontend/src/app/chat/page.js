@@ -52,7 +52,6 @@ export default function ChatPage() {
 
   return (
     <div>
-      <h1>Chat</h1>
       <button onClick={() => router.push("/contactos")}>← Volver</button>
       <PresentChat chatImg={fotoChat} chatName={nombreChat} />
       {mensajes.length === 0 ? (

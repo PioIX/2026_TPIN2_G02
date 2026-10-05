@@ -11,6 +11,24 @@ router.get("/chats/:idUser", async (req, res) => {
      WHERE cp.id_user = ?`,
     [idUser]
   );
+
+  // Esto es para que en los chats individuales se muestre el nombre y la foto del otro participante
+  for (const chat of rows) {
+    if (!chat.es_grupo) {
+      const otros = await realizarQuery(
+        `SELECT u.username, u.foto
+         FROM Usuarios u
+         INNER JOIN Chat_participantes cp ON cp.id_user = u.id_user
+         WHERE cp.id_chat = ? AND cp.id_user != ?`,
+        [chat.id_chat, idUser]
+      );
+      if (otros.length > 0) {
+        chat.nombre = otros[0].username;
+        chat.foto = otros[0].foto;
+      }
+    }
+  }
+
   res.json(rows);
 });
 
@@ -35,7 +53,8 @@ router.post("/chats", async (req, res) => {
     );
     const idChat = resultado.insertId;
 
-    const participantes = [idUserCreador, ...idsEncontrados];
+    // esto es para no insertar al creador 2 veces
+    const participantes = [...new Set([idUserCreador, ...idsEncontrados])];
     for (const idUser of participantes) {
       await realizarQuery(
         "INSERT INTO Chat_participantes (id_chat, id_user) VALUES (?, ?)",
